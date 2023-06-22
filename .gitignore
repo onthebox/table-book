@@ -1,2 +1,6 @@
-/env
-/venv
+# Virtual enviroment
+venv
+
+# Some MacOS shit
+.DS_Store
+**/.DS_Store
