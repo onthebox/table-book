@@ -4,3 +4,6 @@ venv
 # Some MacOS shit
 .DS_Store
 **/.DS_Store
+
+# Python files
+__pycache__
