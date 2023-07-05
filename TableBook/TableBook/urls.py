@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
-from user_service.views import ChainList, ChainDetail
+from user_service.views import ChainsView
 
 urlpatterns = [
-    path('chain/', ChainList.as_view()),
-    path('chain/<int:pk>/', ChainDetail.as_view()),
+    path('chains/', ChainsView.as_view()),
 ]

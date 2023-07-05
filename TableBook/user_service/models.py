@@ -4,8 +4,8 @@ from django.db import models
 
 
 class RestaurantChain(models.Model):
+    chain_id = models.AutoField(primary_key=True, db_column='chain_id')
     chain_name = models.CharField(max_length=256)
-    chain_id = models.IntegerField(primary_key=True, db_column='chain_id')
 
     class Meta:
         db_table = 'restaurant_chain'
@@ -13,9 +13,9 @@ class RestaurantChain(models.Model):
 
 class RestaurantBranch(models.Model):
     branch_id = models.AutoField(primary_key=True)
-    chain_id = models.ForeignKey(RestaurantChain, on_delete=models.CASCADE, db_column='chain_id')
-    contact_number = models.IntegerField()
-    email = models.CharField()
+    chain_id = models.ForeignKey(RestaurantChain, on_delete=models.CASCADE, db_column='chain_id', related_name='branches')
+    contact_number = models.CharField(max_length=12)  # For example +12345678901
+    email = models.EmailField(max_length=250)
     number_of_tables = models.IntegerField()
 
     class Meta:
