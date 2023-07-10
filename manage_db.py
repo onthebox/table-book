@@ -1,5 +1,5 @@
-""" Fill the databse with test data."""
-import os
+"""Fill, clear data from database or drop all tables."""
+import argparse
 import pathlib
 
 import psycopg
@@ -12,7 +12,7 @@ PARAMS = {
     'port': '8080',
 }
 
-DATA_FOLDER = pathlib.Path('C:/Users/onthe/Documents/table-book/test_db_data')
+DATA_FOLDER = pathlib.Path('./test_db_data')
 # Name of the files in needed order avoiding foreign key violation
 DATA_TABLES = [
     'restaurant_chain',
@@ -89,4 +89,35 @@ def drop_tables():
 
 
 if __name__ == '__main__':
-    drop_tables()
+
+    func_dict = {
+        'fill_data': (fill_data, 'Database successfully filled!'),
+        'clear_data': (clear_data, 'Database successfully cleared!'),
+        'drop_tables': (drop_tables, 'All tables dropped! Database is empty.')
+    }
+
+    parser = argparse.ArgumentParser(description='Development tool to manage database data')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
+        '--fill_data',
+        action=argparse.BooleanOptionalAction,
+        help='Fill database from csv files located in ./test_db_data'
+    )
+    group.add_argument(
+        '--clear_data',
+        action=argparse.BooleanOptionalAction,
+        help='Delete all data from database'
+    )
+    group.add_argument(
+        '--drop_tables',
+        action=argparse.BooleanOptionalAction,
+        help='Drop all tables from database'
+    )
+    args = vars(parser.parse_args())
+
+    action = next(action for action in args.keys() if args[action])
+    function_to_execute = func_dict[action][0]
+    success_message = func_dict[action][1]
+
+    function_to_execute()
+    print(success_message)

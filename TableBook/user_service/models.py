@@ -13,7 +13,12 @@ class RestaurantChain(models.Model):
 
 class RestaurantBranch(models.Model):
     branch_id = models.AutoField(primary_key=True)
-    chain_id = models.ForeignKey(RestaurantChain, on_delete=models.CASCADE, db_column='chain_id', related_name='branches')
+    chain_id = models.ForeignKey(
+        RestaurantChain,
+        on_delete=models.CASCADE,
+        db_column='chain_id',
+        related_name='branches'
+    )
     contact_number = models.CharField(max_length=12)  # For example +12345678901
     email = models.EmailField(max_length=250)
     number_of_tables = models.IntegerField()
@@ -23,7 +28,12 @@ class RestaurantBranch(models.Model):
 
 
 class BranchAdress(models.Model):
-    branch_id = models.OneToOneField(RestaurantBranch, on_delete=models.CASCADE, primary_key=True, db_column='branch_id')
+    branch_id = models.OneToOneField(
+        RestaurantBranch,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        db_column='branch_id'
+    )
     country_name = models.CharField(max_length=512)
     city_name = models.CharField(max_length=512)
     street_name = models.CharField(max_length=512)
@@ -34,5 +44,13 @@ class BranchAdress(models.Model):
 
 
 class BranchSeatings(models.Model):
-    branch_id = models.OneToOneField(RestaurantBranch, on_delete=models.CASCADE, primary_key=True, db_column='branch_id')
+    branch_id = models.OneToOneField(
+        RestaurantBranch,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        db_column='branch_id'
+    )
     current_seatings = models.JSONField()
+
+    class Meta:
+        db_table = 'branch_seatings'
