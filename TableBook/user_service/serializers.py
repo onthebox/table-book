@@ -1,9 +1,19 @@
 from rest_framework import serializers
 
-from .models import RestaurantChain
+from .models import RestaurantBranch, RestaurantChain
 
-class RestarauntSerializer(serializers.Serializer):
+
+class RestaurantBranchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RestaurantBranch
+        fields = '__all__'
+
+
+class RestaurantChainSerializer(serializers.ModelSerializer):
+
+    branches = RestaurantBranchSerializer(many=True)
+
     class Meta:
         model = RestaurantChain
-        fields = ('name', 'id')
-
+        fields = ['chain_name', 'branches']

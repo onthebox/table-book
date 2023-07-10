@@ -1,14 +1,20 @@
-from django.shortcuts import render
-from rest_framework import generics
+# from django.shortcuts import render
+# from rest_framework import generics
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import RestaurantChain
-from .serializers import RestarauntSerializer
-
-class ChainList(generics.ListCreateAPIView):
-    queryset = RestaurantChain.objects.all()
-    serializer_class = RestarauntSerializer
+from .serializers import RestaurantChainSerializer
 
 
-class ChainDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = RestaurantChain.objects.all()
-    serializer_class = RestarauntSerializer
+class ChainsView(APIView):
+
+    def get(self, request):
+        """
+        Get all data from RestaurantChain model.
+        """
+        chains = RestaurantChain.objects.all()
+        chains_serialized = RestaurantChainSerializer(chains, many=True)
+
+        return Response(chains_serialized.data)

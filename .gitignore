@@ -5,5 +5,5 @@ venv
 .DS_Store
 **/.DS_Store
 
-# Python files
-__pycache__
+#Python files
+*.pyc
